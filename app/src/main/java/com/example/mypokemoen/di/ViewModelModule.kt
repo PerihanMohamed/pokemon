@@ -1,5 +1,6 @@
 package com.example.mypokemoen.di
 
+import android.annotation.SuppressLint
 import android.util.Log
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
@@ -12,11 +13,11 @@ import io.reactivex.rxjava3.schedulers.Schedulers
 
 class ViewModelModule @ViewModelInject constructor (val pokemonRepositoryModule: PokemonRepositoryModule) : ViewModel() {
 
-    val pokemonLiveData : MutableLiveData<PoekmonResponse> = MutableLiveData()
-    val pokemonList : MutableLiveData<Poekmon> = MutableLiveData()
+//    val pokemonLiveData : MutableLiveData<PoekmonResponse> = MutableLiveData()
+    val pokemonList : MutableLiveData<List<Poekmon>> = MutableLiveData()
 
-
-    fun getPokemons(): LiveData<PoekmonResponse> {
+    @SuppressLint("CheckResult")
+    fun getPokemons() {
 
         pokemonRepositoryModule .getAllPokemons()
             .subscribeOn(Schedulers.io())
@@ -34,11 +35,14 @@ class ViewModelModule @ViewModelInject constructor (val pokemonRepositoryModule:
                 return@map list
 
             }
+
+
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(
 
                 {
-                   pokemonLiveData.postValue(it)
+                    pokemonList.postValue(it)
+
 
 
 
@@ -49,7 +53,7 @@ class ViewModelModule @ViewModelInject constructor (val pokemonRepositoryModule:
                 }
             )
 //            )
-        return pokemonLiveData
+
     }
 
 //    fun insertPokemon(poekmon: Poekmon) = pokemonRepositoryModule.insert(poekmon)

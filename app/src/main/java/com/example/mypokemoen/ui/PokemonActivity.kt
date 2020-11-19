@@ -54,8 +54,12 @@ class PokemonActivity : AppCompatActivity() {
 
 
 
-        viewModel.getPokemons().observe(this , Observer {
-               adapter.swapData(it.results)
+
+        viewModel.getPokemons()
+
+        viewModel.pokemonList.observe(this , Observer {
+
+            adapter.swapData(it)
         })
 
 
