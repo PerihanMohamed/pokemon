@@ -27,6 +27,7 @@ class PokemonAdpater(): RecyclerView.Adapter<PokemonAdpater.PokemonViewHolder>()
 
             return  holder.bind(data[position])
 
+
     }
 
     fun swapData(data: List<Poekmon>) {
@@ -44,7 +45,7 @@ class PokemonAdpater(): RecyclerView.Adapter<PokemonAdpater.PokemonViewHolder>()
               itemView.pokemon_name_textView.text  = data.name
 
 
-                Glide.with(itemView.context)
+               Glide.with(itemView.context)
                      .load(data.url)
                     .into(itemView.pokemon_imageView)
 

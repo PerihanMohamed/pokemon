@@ -9,6 +9,7 @@ android {
     buildToolsVersion "30.0.1"
 
     defaultConfig {
+
         applicationId "com.example.mypokemoen"
         minSdkVersion 26
         targetSdkVersion 30
@@ -70,8 +71,9 @@ dependencies {
 
     // Room
     implementation "androidx.room:room-runtime:$room_version"
-    annotationProcessor "androidx.room:room-compiler:$room_version"
+    kapt "androidx.room:room-compiler:$room_version"
     implementation "androidx.room:room-rxjava2:$room_version"
+    kapt "android.arch.persistence.room:compiler:$room_version"
 
     // Navigation
     //noinspection GradleDependency
@@ -81,8 +83,7 @@ dependencies {
 
     // Glide
     implementation 'com.github.bumptech.glide:glide:4.11.0'
-    annotationProcessor 'com.github.bumptech.glide:compiler:4.11.0'
-
+    kapt 'com.github.bumptech.glide:compiler:4.11.0'
     //sdp
     implementation 'com.intuit.sdp:sdp-android:1.0.6'
 

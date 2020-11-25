@@ -7,14 +7,17 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.mypokemoen.model.Poekmon
-import com.example.mypokemoen.model.PoekmonResponse
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.schedulers.Schedulers
+import kotlin.math.PI
 
-class ViewModelModule @ViewModelInject constructor (val pokemonRepositoryModule: PokemonRepositoryModule) : ViewModel() {
+class ViewModelModule @ViewModelInject constructor(val pokemonRepositoryModule: PokemonRepositoryModule) : ViewModel() {
 
-//    val pokemonLiveData : MutableLiveData<PoekmonResponse> = MutableLiveData()
-    val pokemonList : MutableLiveData<List<Poekmon>> = MutableLiveData()
+
+     val pokemonList : MutableLiveData<List<Poekmon>> = MutableLiveData()
+
+     lateinit var favPokemonList : LiveData<List<Poekmon>>
+
 
     @SuppressLint("CheckResult")
     fun getPokemons() {
@@ -22,19 +25,26 @@ class ViewModelModule @ViewModelInject constructor (val pokemonRepositoryModule:
         pokemonRepositoryModule .getAllPokemons()
             .subscribeOn(Schedulers.io())
 
-            .map{
-              val list : List<Poekmon> = it.results
-                   for(pok in list ){
-                       val url = pok.url
-                       val pokemonIndex =
-                           url.split("/".toRegex()).toTypedArray()
-                       pok.url =
-                           "https://pokeres.bastionbot.org/images/pokemon/" + pokemonIndex[pokemonIndex.size - 1] + ".png"
+            .map {
+                val list: List<Poekmon> = it.results
+                for (pok in list) {
+                    val url = pok.url
+                    val pokemonIndex: List<String> =
+                        url.split("/")
+                    pok.url =
+                        "https://pokeres.bastionbot.org/images/pokemon/" + pokemonIndex.size.minus(1) + ".png"
 
-                   }
+                }
                 return@map list
 
             }
+
+
+
+
+
+
+
 
 
             .observeOn(AndroidSchedulers.mainThread())
@@ -44,10 +54,7 @@ class ViewModelModule @ViewModelInject constructor (val pokemonRepositoryModule:
                     pokemonList.postValue(it)
 
 
-
-
-
-                },{
+                }, {
 //                    Log.e("viewModel" , it.message!!)
                     Log.e("viwModel", it.message!!)
                 }
@@ -56,15 +63,18 @@ class ViewModelModule @ViewModelInject constructor (val pokemonRepositoryModule:
 
     }
 
-//    fun insertPokemon(poekmon: Poekmon) = pokemonRepositoryModule.insert(poekmon)
-//    fun deletePokemon(poekmon: Poekmon) = pokemonRepositoryModule.delete(poekmon)
-//
-//
-//
-//    fun getAllfavPok() {
-//
-//        pokemonRepositoryModule.getfavoritePokemon()
-//    }
+    fun insertPokemon(poekmon: Poekmon) = pokemonRepositoryModule.insert(poekmon)
+
+    fun deletePokemon(poekmon: Poekmon) = pokemonRepositoryModule.delete(poekmon)
+
+    fun getAllfavPokemon(){
+
+       favPokemonList  = pokemonRepositoryModule.getAllFavPokemon()
+
+}
+
+
+
 
 
 

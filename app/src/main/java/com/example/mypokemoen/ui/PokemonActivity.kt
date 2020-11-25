@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.mypokemoen.R
 
 import com.example.mypokemoen.di.ViewModelModule
+import com.example.mypokemoen.ui.fav.FavoriteActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_pokemon.*
 
@@ -21,9 +22,7 @@ class PokemonActivity : AppCompatActivity() {
 
 
     lateinit var viewModel:ViewModelModule
-//    lateinit var repository :PokemonRepository
 
-//    private var db: PokemonDatabase? = null
     val adapter = PokemonAdpater()
 
     private val newWordActivityRequestCode = 1
@@ -32,9 +31,9 @@ class PokemonActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_pokemon)
 
-//        swipeUp()
+        swipeUp()
 
-//        db = PokemonDatabase.getDatabase(this)
+
 
 
 
@@ -65,44 +64,44 @@ class PokemonActivity : AppCompatActivity() {
 
 
 
-//        to_fav_button
-//        .setOnClickListener {
-//            val intent = Intent(this, FavoriteActivity::class.java)
-//            startActivityForResult(intent ,newWordActivityRequestCode)
-//        }
+        to_fav_button
+        .setOnClickListener {
+            val intent = Intent(this, FavoriteActivity::class.java)
+            startActivityForResult(intent ,newWordActivityRequestCode)
+        }
 
     }
 
 
-//    fun swipeUp(){
-//
-//        val itemTouchHelperCallback =
-//            object :
-//                ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT ) {
-//                override fun onMove(
-//                    recyclerView: RecyclerView,
-//                    viewHolder: RecyclerView.ViewHolder,
-//                    target: RecyclerView.ViewHolder
-//                ): Boolean {
-//                    return false
-//                }
-//                override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-//                     val swipePosition = viewHolder.adapterPosition
-//                     val pokemonPosition = adapter.getPokemonPosition(swipePosition)
-//                     viewModel.insertPokemon(pokemonPosition)
-//
-//
-//                    Toast.makeText(
-//                        this@PokemonActivity,
-//                       "this pokemon has been added to favList",
-//                        Toast.LENGTH_SHORT
-//                    ).show()
-//                }
-//
-//            }
-//
-//        val itemTouchHelper = ItemTouchHelper(itemTouchHelperCallback)
-//        itemTouchHelper.attachToRecyclerView(pokemon_recyclerView)
-//
-//    }
+    fun swipeUp(){
+
+        val itemTouchHelperCallback =
+            object :
+                ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT ) {
+                override fun onMove(
+                    recyclerView: RecyclerView,
+                    viewHolder: RecyclerView.ViewHolder,
+                    target: RecyclerView.ViewHolder
+                ): Boolean {
+                    return false
+                }
+                override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                     val swipePosition = viewHolder.adapterPosition
+                     val pokemonPosition = adapter.getPokemonPosition(swipePosition)
+                     viewModel.insertPokemon(pokemonPosition)
+
+
+                    Toast.makeText(
+                        this@PokemonActivity,
+                       "this pokemon has been added to favList",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+
+            }
+
+        val itemTouchHelper = ItemTouchHelper(itemTouchHelperCallback)
+        itemTouchHelper.attachToRecyclerView(pokemon_recyclerView)
+
+    }
 }
